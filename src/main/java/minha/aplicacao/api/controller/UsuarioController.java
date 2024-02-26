@@ -1,9 +1,12 @@
 package minha.aplicacao.api.controller;
 
+import jakarta.validation.Valid;
 import minha.aplicacao.api.DTO.UsuarioDTO;
 import minha.aplicacao.api.models.Usuario;
 import minha.aplicacao.api.repository.UsuarioRepository;
+import minha.aplicacao.api.services.UsuarioServices;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -11,12 +14,13 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/usuarios")
 public class UsuarioController {
     @Autowired
-    private UsuarioRepository usuarioRepository;
+    private UsuarioServices usuarioServices;
     @PostMapping
-    public void cadastrar(@RequestBody UsuarioDTO usuarioDTO){
-        usuarioRepository.save(new Usuario(usuarioDTO));
+    public String cadastrar(@RequestBody @Valid UsuarioDTO usuarioDTO){
+        return usuarioServices.setUsuario(usuarioDTO);
     }
     public void modificar(@RequestBody UsuarioDTO usuarioDTO) {
+
     }
 
 }
