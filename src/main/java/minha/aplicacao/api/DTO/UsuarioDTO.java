@@ -1,24 +1,23 @@
 package minha.aplicacao.api.DTO;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.validation.constraints.*;
 import org.springframework.data.annotation.Id;
 
-import java.time.LocalDateTime;
-
 public record UsuarioDTO (
-        @NotBlank
+        @NotBlank @JsonProperty
         String nome,
-        @NotNull
-        LocalDateTime data_nascimento,
-        @Id
+        @NotNull @JsonProperty
+        String dataNascimento,
+        @Id @JsonProperty
         int idUsuario,
-        @NotBlank
+        @NotBlank @JsonProperty
         String senha,
         String imagem_64,
-        @NotBlank @Pattern(regexp = "\\d{11}")
+        @NotBlank @JsonProperty @Pattern(regexp = "\\d{11}")
         String cpf,
-        @NotNull
+        @NotNull @JsonProperty
         int nivel_acesso,
-        @Email
+        @Email @JsonProperty
         String email) {
 
 }
