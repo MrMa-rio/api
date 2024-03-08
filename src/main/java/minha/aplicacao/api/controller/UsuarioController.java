@@ -1,16 +1,10 @@
 package minha.aplicacao.api.controller;
 
 import jakarta.validation.Valid;
-import jakarta.websocket.server.PathParam;
 import minha.aplicacao.api.DTO.UsuarioDTO;
-<<<<<<< Updated upstream
-import minha.aplicacao.api.models.Usuario;
-import minha.aplicacao.api.repository.UsuarioRepository;
-=======
->>>>>>> Stashed changes
 import minha.aplicacao.api.services.UsuarioServices;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -24,7 +18,7 @@ public class UsuarioController {
         return usuarioServices.setUsuario(usuarioDTO);
     }
     @GetMapping
-    public  ResponseEntity<String> todosUsuarios(){
+    public ResponseEntity<String> todosUsuarios(){
         try {
             return ResponseEntity.ok(usuarioServices.todosUsuarios());
         }

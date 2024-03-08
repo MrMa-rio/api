@@ -1,35 +1,20 @@
 package minha.aplicacao.api.services;
-
-<<<<<<< Updated upstream
-=======
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.NoArgsConstructor;
->>>>>>> Stashed changes
 import minha.aplicacao.api.DTO.UsuarioDTO;
 import minha.aplicacao.api.models.Usuario;
 import minha.aplicacao.api.repository.UsuarioRepository;
-import netscape.javascript.JSObject;
 import org.springframework.beans.factory.annotation.Autowired;
-<<<<<<< Updated upstream
 import org.springframework.stereotype.Service;
 
-import java.sql.SQLException;
-=======
 import org.springframework.dao.DataIntegrityViolationException;
-import org.springframework.stereotype.Service;
-
-import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Stream;
->>>>>>> Stashed changes
 
-@NoArgsConstructor
 @Service
 public class UsuarioServices {
     @Autowired
     private UsuarioRepository usuarioRepository;
-<<<<<<< Updated upstream
     public UsuarioServices(){
     }
     public String setUsuario(UsuarioDTO usuarioDTO) {
@@ -37,14 +22,10 @@ public class UsuarioServices {
         try {
             usuarioRepository.save(new Usuario(usuarioDTO));
             return usuarioDTO.toString();
-        }catch (RuntimeException e){
+        } catch (RuntimeException e) {
             return e.getMessage();
         }
-
-
-=======
-
-
+    }
     public String cadastrar(UsuarioDTO usuarioDTO) {
         Usuario usuario = new Usuario(usuarioDTO);
         try {
@@ -54,7 +35,6 @@ public class UsuarioServices {
            System.out.print(e.getMessage());
            return e.getMessage();
         }
->>>>>>> Stashed changes
     }
     public String todosUsuarios(){
         List<Usuario> usuario = usuarioRepository.findAll();
