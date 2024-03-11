@@ -2,15 +2,16 @@ package minha.aplicacao.api.DTO;
 import jakarta.validation.constraints.*;
 import org.springframework.data.annotation.Id;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 public record UsuarioDTO (
         @NotBlank
         String nome,
         @NotNull
-        LocalDateTime data_nascimento,
+        LocalDate data_nascimento,
         @Id
         int idUsuario,
+        int status,
         @NotBlank
         String senha,
         String imagem_64,

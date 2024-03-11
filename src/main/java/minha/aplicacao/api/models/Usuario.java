@@ -1,11 +1,16 @@
 package minha.aplicacao.api.models;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import jakarta.persistence.*;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import minha.aplicacao.api.DTO.UsuarioDTO;
+
+import java.util.Optional;
 
 @Table(name = "tb_usuario")
 @Entity
@@ -15,6 +20,7 @@ import minha.aplicacao.api.DTO.UsuarioDTO;
 public class Usuario extends Pessoa{
 
 
+    private int status;
     @Id
     private int idUsuario;
     private String senha;
@@ -27,9 +33,12 @@ public class Usuario extends Pessoa{
         this.senha = usuarioDTO.senha();
         this.nivel_acesso = usuarioDTO.nivel_acesso();
         this.idUsuario = usuarioDTO.idUsuario();
+        this.status = usuarioDTO.status();
     }
+
     public String toJson() throws JsonProcessingException {
         ObjectMapper objectMapper = new ObjectMapper();
+        objectMapper.registerModule(new JavaTimeModule());
         return objectMapper.writeValueAsString(this);
     }
 

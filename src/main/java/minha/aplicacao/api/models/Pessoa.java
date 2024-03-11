@@ -4,6 +4,7 @@ import jakarta.persistence.MappedSuperclass;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @MappedSuperclass
@@ -12,16 +13,14 @@ import java.time.LocalDateTime;
 public class Pessoa {
 
     private String nome;
-    private LocalDateTime data_nascimento;
+    private LocalDate data_nascimento;
 
     private String imagem_64;
     private String cpf;
     private String email;
 
-//    public Pessoa(String nome, LocalDateTime localDateTime, String cpf, String email, String s) {
-//    }
 
-    public Pessoa(String nome, LocalDateTime data_nascimento, String imagem_64, String cpf, String email) {
+    public Pessoa(String nome, LocalDate data_nascimento, String imagem_64, String cpf, String email) {
         this.nome = nome;
         this.data_nascimento = data_nascimento;
         this.imagem_64 = imagem_64;
