@@ -2,18 +2,15 @@ package minha.aplicacao.api.models;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
+
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import minha.aplicacao.api.DTO.UsuarioDTO;
-
-import java.time.LocalDateTime;
 
 @Table(name = "tb_usuario")
 @Entity
 @Getter
 @NoArgsConstructor
-//@AllArgsConstructor
 
 public class Usuario extends Pessoa{
 

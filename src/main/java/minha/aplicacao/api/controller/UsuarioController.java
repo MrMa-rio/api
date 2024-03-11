@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 
-@RequestMapping("/usuarios")
+@RequestMapping("usuarios")
 public class UsuarioController {
     @Autowired
     private UsuarioServices usuarioServices;
@@ -26,13 +26,13 @@ public class UsuarioController {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
-    @GetMapping(value = "teste/{usuarioId}", params = "usuarioId")
-    public ResponseEntity<String> acharUsuarioPorId(@RequestParam("usuarioId") int usuarioId){
-        try {
-            return ResponseEntity.ok(usuarioServices.acharUsuarioPorId(usuarioId));
-        }
-        catch (Exception e){
-            return ResponseEntity.badRequest().body(e.getMessage());
-        }
-    }
+//    @GetMapping(value = "teste/{usuarioId}", params = "usuarioId")
+//    public ResponseEntity<String> acharUsuarioPorId(@RequestParam("usuarioId") int usuarioId){
+//        try {
+//            return ResponseEntity.ok(usuarioServices.acharUsuarioPorId(usuarioId));
+//        }
+//        catch (Exception e){
+//            return ResponseEntity.badRequest().body(e.getMessage());
+//        }
+//    }
 }

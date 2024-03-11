@@ -1,7 +1,7 @@
 package minha.aplicacao.api.services;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import lombok.NoArgsConstructor;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import minha.aplicacao.api.DTO.UsuarioDTO;
 import minha.aplicacao.api.models.Usuario;
 import minha.aplicacao.api.repository.UsuarioRepository;
@@ -39,6 +39,7 @@ public class UsuarioServices {
     public String todosUsuarios(){
         List<Usuario> usuario = usuarioRepository.findAll();
         ObjectMapper objectMapper = new ObjectMapper();
+        objectMapper.registerModule(new JavaTimeModule());
         try {
             return objectMapper.writeValueAsString(usuario);
         } catch (JsonProcessingException e) {
