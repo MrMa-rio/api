@@ -6,7 +6,7 @@ import jakarta.persistence.EntityNotFoundException;
 import minha.aplicacao.api.DTO.UsuarioCreateDTO;
 import minha.aplicacao.api.DTO.UsuarioUpdateDTO;
 import minha.aplicacao.api.models.Usuario;
-import minha.aplicacao.api.repository.UsuarioRepository;
+import minha.aplicacao.api.repository.IUsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.ArrayList;
@@ -14,20 +14,20 @@ import java.util.ArrayList;
 @Service
 public class UsuarioServices {
     @Autowired
-    private UsuarioRepository usuarioRepository;
+    private IUsuarioRepository IUsuarioRepository;
     public UsuarioServices(){
     }
     public String setUsuario(UsuarioCreateDTO usuarioCreateDTO) {
         try {
             Usuario usuario = new Usuario(usuarioCreateDTO);
-            usuarioRepository.save(usuario);
+            IUsuarioRepository.save(usuario);
             return usuario.toJson();
         } catch (RuntimeException | JsonProcessingException e) {
             throw new RuntimeException(e);
         }
     }
     public String getUsuarios(){
-        ArrayList<Usuario> usuario = (ArrayList<Usuario>) usuarioRepository.findAll();
+        ArrayList<Usuario> usuario = (ArrayList<Usuario>) IUsuarioRepository.findAll();
         ObjectMapper objectMapper = new ObjectMapper();
         objectMapper.registerModule(new JavaTimeModule());
         try {
@@ -39,7 +39,7 @@ public class UsuarioServices {
     public String getUsuarioPorId(Integer usuarioId){
 
         try {
-            Usuario usuario = usuarioRepository.getReferenceById(usuarioId);
+            Usuario usuario = IUsuarioRepository.getReferenceById(usuarioId);
             return usuario.toJson();
         }
         catch (EntityNotFoundException e){
@@ -57,7 +57,7 @@ public class UsuarioServices {
             ObjectMapper objectMapper = new ObjectMapper();
             Usuario usuario = objectMapper.readValue(existeUsuario, Usuario.class);
             usuario.updateUsuario(usuarioUpdateDTO);
-            usuarioRepository.save(usuario);
+            IUsuarioRepository.save(usuario);
             return usuario.toJson();
         }catch (JsonProcessingException e){
             throw new RuntimeException(e);
@@ -72,7 +72,7 @@ public class UsuarioServices {
             ObjectMapper objectMapper = new ObjectMapper();
             Usuario usuario = objectMapper.readValue(existeUsuario, Usuario.class);
             usuario.deleteUsuario();
-            usuarioRepository.save(usuario);
+            IUsuarioRepository.save(usuario);
             return usuario.toJson();
         }catch (JsonProcessingException e){
             throw new RuntimeException(e);

@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 
-@RequestMapping("usuarios")
+@RequestMapping({"usuarios", "usuarios/"})
 public class UsuarioController {
     @Autowired
     private UsuarioServices usuarioServices;
