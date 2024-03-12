@@ -9,10 +9,8 @@ import minha.aplicacao.api.DTO.UsuarioUpdateDTO;
 import minha.aplicacao.api.responseBody.ResponseBody;
 import minha.aplicacao.api.services.UsuarioServices;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.format.annotation.NumberFormat;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 
 @RestController
 
