@@ -2,13 +2,11 @@ package minha.aplicacao.api.DTO;
 import jakarta.validation.constraints.*;
 import org.springframework.data.annotation.Id;
 
-import java.time.LocalDate;
-
-public record UsuarioDTO (
+public record UsuarioCreateDTO(
         @NotBlank
         String nome,
         @NotNull
-        LocalDate data_nascimento,
+        String data_nascimento,
         @Id
         int idUsuario,
         int status,
@@ -19,7 +17,7 @@ public record UsuarioDTO (
         String cpf,
         @NotNull
         int nivel_acesso,
-        @Email
+        @Email @NotNull
         String email) {
 
 }

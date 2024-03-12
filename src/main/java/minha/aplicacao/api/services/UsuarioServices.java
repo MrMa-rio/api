@@ -2,14 +2,20 @@ package minha.aplicacao.api.services;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
-import minha.aplicacao.api.DTO.UsuarioDTO;
+import jakarta.persistence.EntityNotFoundException;
+import jakarta.validation.constraints.NotNull;
+import minha.aplicacao.api.DTO.UsuarioCreateDTO;
+import minha.aplicacao.api.DTO.UsuarioUpdateDTO;
 import minha.aplicacao.api.models.Usuario;
 import minha.aplicacao.api.repository.UsuarioRepository;
+import org.hibernate.engine.jdbc.spi.SqlExceptionHelper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
 import org.springframework.dao.DataIntegrityViolationException;
-import java.util.List;
+import org.springframework.stereotype.Service;
+import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
+
+import java.sql.SQLSyntaxErrorException;
+import java.util.ArrayList;
 import java.util.Optional;
 
 @Service
@@ -18,18 +24,17 @@ public class UsuarioServices {
     private UsuarioRepository usuarioRepository;
     public UsuarioServices(){
     }
-    public String setUsuario(UsuarioDTO usuarioDTO) {
-
+    public String setUsuario(UsuarioCreateDTO usuarioCreateDTO) {
         try {
-            Usuario usuario = new Usuario(usuarioDTO);
+            Usuario usuario = new Usuario(usuarioCreateDTO);
             usuarioRepository.save(usuario);
             return usuario.toJson();
         } catch (RuntimeException | JsonProcessingException e) {
-            return e.getMessage();
+            throw new RuntimeException(e);
         }
     }
     public String getUsuarios(){
-        List<Usuario> usuario = usuarioRepository.findAll();
+        ArrayList<Usuario> usuario = (ArrayList<Usuario>) usuarioRepository.findAll();
         ObjectMapper objectMapper = new ObjectMapper();
         objectMapper.registerModule(new JavaTimeModule());
         try {
@@ -38,16 +43,45 @@ public class UsuarioServices {
             throw new RuntimeException(e);
         }
     }
-    public String acharUsuarioPorId(int usuarioId){
+    public String getUsuarioPorId(Integer usuarioId){
 
         try {
-            Optional<Usuario> usuarioDTO = usuarioRepository.findById(usuarioId);
-            if (!usuarioDTO.isPresent()) {
-                return null;
-            }
-            return usuarioDTO.get().toJson();
-
+            Usuario usuario = usuarioRepository.getReferenceById(usuarioId);
+            return usuario.toJson();
+        }
+        catch (EntityNotFoundException e){
+            throw new EntityNotFoundException(e);
         } catch (JsonProcessingException e) {
+            throw new RuntimeException(e);
+        }
+    }
+    public String updateUsuario(UsuarioUpdateDTO usuarioUpdateDTO) {
+        String existeUsuario = getUsuarioPorId(usuarioUpdateDTO.idUsuario());
+        if(existeUsuario.isEmpty()){
+            return null;
+        }
+        try{
+            ObjectMapper objectMapper = new ObjectMapper();
+            Usuario usuario = objectMapper.readValue(existeUsuario, Usuario.class);
+            usuario.updateUsuario(usuarioUpdateDTO);
+            usuarioRepository.save(usuario);
+            return usuario.toJson();
+        }catch (JsonProcessingException e){
+            throw new RuntimeException(e);
+        }
+    }
+    public String deleteLogicalUsuario(Integer idUsuario){
+        String existeUsuario = getUsuarioPorId(idUsuario);
+        if(existeUsuario.isEmpty()){
+            return null;
+        }
+        try{
+            ObjectMapper objectMapper = new ObjectMapper();
+            Usuario usuario = objectMapper.readValue(existeUsuario, Usuario.class);
+            usuario.deleteUsuario();
+            usuarioRepository.save(usuario);
+            return usuario.toJson();
+        }catch (JsonProcessingException e){
             throw new RuntimeException(e);
         }
     }

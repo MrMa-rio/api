@@ -1,16 +1,16 @@
 package minha.aplicacao.api.models;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
+import jakarta.persistence.MappedSuperclass;
 import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import minha.aplicacao.api.DTO.UsuarioDTO;
-
-import java.util.Optional;
+import minha.aplicacao.api.DTO.UsuarioCreateDTO;
+import minha.aplicacao.api.DTO.UsuarioUpdateDTO;
+import org.jetbrains.annotations.NotNull;
 
 @Table(name = "tb_usuario")
 @Entity
@@ -19,27 +19,46 @@ import java.util.Optional;
 
 public class Usuario extends Pessoa{
 
-
     private int status;
     @Id
     private int idUsuario;
     private String senha;
     private int nivel_acesso;
 
-
-    public Usuario(UsuarioDTO usuarioDTO) {
-
-        super(usuarioDTO.nome(), usuarioDTO.data_nascimento(),usuarioDTO.imagem_64(), usuarioDTO.cpf(), usuarioDTO.email());
-        this.senha = usuarioDTO.senha();
-        this.nivel_acesso = usuarioDTO.nivel_acesso();
-        this.idUsuario = usuarioDTO.idUsuario();
-        this.status = usuarioDTO.status();
+    public Usuario(@NotNull UsuarioCreateDTO usuarioCreateDTO) {
+        super(usuarioCreateDTO.nome(), usuarioCreateDTO.data_nascimento(), usuarioCreateDTO.imagem_64(), usuarioCreateDTO.cpf(), usuarioCreateDTO.email());
+        this.senha = usuarioCreateDTO.senha();
+        this.nivel_acesso = usuarioCreateDTO.nivel_acesso();
+        this.idUsuario = usuarioCreateDTO.idUsuario();
+        this.status = usuarioCreateDTO.status();
     }
 
     public String toJson() throws JsonProcessingException {
         ObjectMapper objectMapper = new ObjectMapper();
-        objectMapper.registerModule(new JavaTimeModule());
         return objectMapper.writeValueAsString(this);
     }
+    public void updateUsuario(UsuarioUpdateDTO usuarioUpdateDTO){
+        if(usuarioUpdateDTO.dataNascimento() != null){
+            setDataNascimento(usuarioUpdateDTO.dataNascimento());
+        }
+        if(usuarioUpdateDTO.nome() != null){
+            setNome(usuarioUpdateDTO.nome());
+        }
+        if(usuarioUpdateDTO.nivel_acesso() != null){
+            this.nivel_acesso = usuarioUpdateDTO.nivel_acesso();
+        }
+        if(usuarioUpdateDTO.senha() != null){
+            this.senha = usuarioUpdateDTO.senha();
+        }
+        if(usuarioUpdateDTO.imagem_64() != null){
+            this.setImagem_64(usuarioUpdateDTO.imagem_64());
+        }
+        if(usuarioUpdateDTO.status() != null){
+            this.status = usuarioUpdateDTO.status();
+        }
+    }
 
+    public void deleteUsuario() {
+        this.status = 1;
+    }
 }
