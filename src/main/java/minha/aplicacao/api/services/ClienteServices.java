@@ -2,7 +2,6 @@ package minha.aplicacao.api.services;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import jakarta.persistence.EntityNotFoundException;
 import minha.aplicacao.api.DTO.ClienteCreateDTO;
 import minha.aplicacao.api.DTO.ClienteUpdateDTO;
@@ -18,22 +17,21 @@ public class ClienteServices {
     private IClienteRepository IClienteRepository;
     public ClienteServices(){
     }
-    public String setUsuario(ClienteCreateDTO clienteCreateDTO) {
+    public Cliente setCliente(ClienteCreateDTO clienteCreateDTO) {
         try {
             Cliente cliente = new Cliente(clienteCreateDTO);
             IClienteRepository.save(cliente);
-            return cliente.toJson();
-        } catch (RuntimeException | JsonProcessingException e) {
+            return cliente;
+        } catch (RuntimeException e) {
             throw new RuntimeException(e);
         }
     }
-    public String getClientes(){
+    public ArrayList<Cliente> getClientes(){
         ArrayList<Cliente> cliente = (ArrayList<Cliente>) IClienteRepository.findAll();
-        ObjectMapper objectMapper = new ObjectMapper();
-        objectMapper.registerModule(new JavaTimeModule());
+
         try {
-            return objectMapper.writeValueAsString(cliente);
-        } catch (JsonProcessingException e) {
+            return cliente;
+        } catch (RuntimeException e) {
             throw new RuntimeException(e);
         }
     }

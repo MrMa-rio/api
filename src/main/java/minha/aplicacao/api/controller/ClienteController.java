@@ -19,17 +19,17 @@ public class ClienteController {
     @Autowired
     private ClienteServices clienteServices;
     @PostMapping
-    @Transactional
-    public ResponseEntity<String> setCliente(@RequestBody @Valid ClienteCreateDTO clienteCreateDTO) throws JsonProcessingException { //Futuramente encapsular para q que nao precise inserir um throws direto
+
+    public ResponseEntity setCliente(@RequestBody @Valid ClienteCreateDTO clienteCreateDTO) {
         try {
-            return ResponseEntity.ok(clienteServices.setUsuario(clienteCreateDTO));
-        }catch (Exception e){
+            return ResponseEntity.ok(clienteServices.setCliente(clienteCreateDTO));
+        }catch (RuntimeException e){
             ResponseBody responseBody = new ResponseBody(400, e.getMessage());
-            return ResponseEntity.ok(responseBody.toJson());
+            return ResponseEntity.ok(responseBody);
         }
     }
     @GetMapping
-    public ResponseEntity<String> getTodosClientes(){
+    public ResponseEntity getTodosClientes(){
         try {
             return ResponseEntity.ok(clienteServices.getClientes());
         }

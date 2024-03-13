@@ -2,9 +2,7 @@ package minha.aplicacao.api.models;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import minha.aplicacao.api.DTO.UsuarioCreateDTO;
@@ -19,7 +17,7 @@ import org.jetbrains.annotations.NotNull;
 public class Usuario extends Pessoa{
 
     private int status;
-    @Id
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int idUsuario;
     private String senha;
     private int nivel_acesso;
