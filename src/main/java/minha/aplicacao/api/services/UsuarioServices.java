@@ -10,6 +10,8 @@ import minha.aplicacao.api.repository.IUsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.ArrayList;
+import java.util.NoSuchElementException;
+import java.util.Optional;
 
 @Service
 public class UsuarioServices {
@@ -17,64 +19,52 @@ public class UsuarioServices {
     private IUsuarioRepository IUsuarioRepository;
     public UsuarioServices(){
     }
-    public String setUsuario(UsuarioCreateDTO usuarioCreateDTO) {
+    public Usuario setUsuario(UsuarioCreateDTO usuarioCreateDTO) {
         try {
             Usuario usuario = new Usuario(usuarioCreateDTO);
             IUsuarioRepository.save(usuario);
-            return usuario.toJson();
-        } catch (RuntimeException | JsonProcessingException e) {
+            return usuario;
+        } catch (RuntimeException e) {
             throw new RuntimeException(e);
         }
     }
-    public String getUsuarios(){
+    public ArrayList<Usuario> getUsuarios(){
         ArrayList<Usuario> usuario = (ArrayList<Usuario>) IUsuarioRepository.findAll();
-        ObjectMapper objectMapper = new ObjectMapper();
-        objectMapper.registerModule(new JavaTimeModule());
         try {
-            return objectMapper.writeValueAsString(usuario);
-        } catch (JsonProcessingException e) {
+            return usuario;
+        } catch (RuntimeException e) {
             throw new RuntimeException(e);
         }
     }
-    public String getUsuarioPorId(Integer usuarioId){
+    public Usuario getUsuarioPorId(Integer usuarioId){
 
         try {
-            Usuario usuario = IUsuarioRepository.getReferenceById(usuarioId);
-            return usuario.toJson();
+            Optional<Usuario> usuario = IUsuarioRepository.findById(usuarioId);
+            return usuario.orElseThrow();
         }
-        catch (EntityNotFoundException e){
-            throw new EntityNotFoundException(e);
-        } catch (JsonProcessingException e) {
-            throw new RuntimeException(e);
+        catch (NoSuchElementException e){
+            throw new NoSuchElementException(e);
         }
     }
-    public String updateUsuario(UsuarioUpdateDTO usuarioUpdateDTO) {
-        String existeUsuario = getUsuarioPorId(usuarioUpdateDTO.idUsuario());
-        if(existeUsuario.isEmpty()){
-            return null;
-        }
+    public Usuario updateUsuario(UsuarioUpdateDTO usuarioUpdateDTO) {
+        Usuario usuario = getUsuarioPorId(usuarioUpdateDTO.idUsuario());
+        if(usuario == null ) return null;
         try{
-            ObjectMapper objectMapper = new ObjectMapper();
-            Usuario usuario = objectMapper.readValue(existeUsuario, Usuario.class);
             usuario.updateUsuario(usuarioUpdateDTO);
             IUsuarioRepository.save(usuario);
-            return usuario.toJson();
-        }catch (JsonProcessingException e){
+            return usuario;
+        }catch (RuntimeException e){
             throw new RuntimeException(e);
         }
     }
-    public String deleteLogicalUsuario(Integer idUsuario){
-        String existeUsuario = getUsuarioPorId(idUsuario);
-        if(existeUsuario.isEmpty()){
-            return null;
-        }
+    public Usuario deleteLogicalUsuario(Integer idUsuario){
+        Usuario usuario = getUsuarioPorId(idUsuario);
+        if(usuario == null) return null;
         try{
-            ObjectMapper objectMapper = new ObjectMapper();
-            Usuario usuario = objectMapper.readValue(existeUsuario, Usuario.class);
             usuario.deleteUsuario();
             IUsuarioRepository.save(usuario);
-            return usuario.toJson();
-        }catch (JsonProcessingException e){
+            return usuario;
+        }catch (RuntimeException e){
             throw new RuntimeException(e);
         }
     }

@@ -1,10 +1,8 @@
 package minha.aplicacao.api.controller;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import jakarta.validation.Valid;
 import minha.aplicacao.api.DTO.ItemCreateDTO;
 import minha.aplicacao.api.DTO.ItemUpdateDTO;
-import minha.aplicacao.api.models.Item;
 import minha.aplicacao.api.responseBody.ResponseBody;
 import minha.aplicacao.api.services.ItemServices;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,7 +16,7 @@ public class ItemController {
     @Autowired
     private ItemServices itemServices;
     @PostMapping
-    public ResponseEntity setItem(@RequestBody @Valid ItemCreateDTO itemCreateDTO)  {
+    public ResponseEntity<?> setItem(@RequestBody @Valid ItemCreateDTO itemCreateDTO)  {
 
         try{
             return ResponseEntity.ok(itemServices.setItem(itemCreateDTO));

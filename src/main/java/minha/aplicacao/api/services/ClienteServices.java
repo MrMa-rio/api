@@ -10,6 +10,8 @@ import minha.aplicacao.api.repository.IClienteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.ArrayList;
+import java.util.NoSuchElementException;
+import java.util.Optional;
 
 @Service
 public class ClienteServices {
@@ -35,45 +37,39 @@ public class ClienteServices {
             throw new RuntimeException(e);
         }
     }
-    public String getClientePorId(Integer idCliente){
+    public Cliente getClientePorId(Integer idCliente){
 
         try {
-            Cliente cliente = IClienteRepository.getReferenceById(idCliente);
-            return cliente.toJson();
+            Optional<Cliente> cliente = IClienteRepository.findById(idCliente);
+            return cliente.orElseThrow();
         }
-        catch (EntityNotFoundException e){
-            throw new EntityNotFoundException(e);
-        } catch (JsonProcessingException e) {
-            throw new RuntimeException(e);
+        catch (NoSuchElementException e){
+            throw new NoSuchElementException(e);
         }
     }
-    public String updateCliente(ClienteUpdateDTO clienteUpdateDTO) {
-        String existeCliente = getClientePorId(clienteUpdateDTO.idCliente());
-        if(existeCliente.isEmpty()){
+    public Cliente updateCliente(ClienteUpdateDTO clienteUpdateDTO) {
+        Cliente cliente = getClientePorId(clienteUpdateDTO.idCliente());
+        if(cliente == null){
             return null;
         }
         try{
-            ObjectMapper objectMapper = new ObjectMapper();
-            Cliente cliente = objectMapper.readValue(existeCliente, Cliente.class);
             cliente.updateCliente(clienteUpdateDTO);
             IClienteRepository.save(cliente);
-            return cliente.toJson();
-        }catch (JsonProcessingException e){
+            return cliente;
+        }catch (RuntimeException e){
             throw new RuntimeException(e);
         }
     }
-    public String deleteLogicalCliente(Integer idCliente){
-        String existeCliente = getClientePorId(idCliente);
-        if(existeCliente.isEmpty()){
+    public Cliente deleteLogicalCliente(Integer idCliente){
+        Cliente cliente = getClientePorId(idCliente);
+        if(cliente == null){
             return null;
         }
         try{
-            ObjectMapper objectMapper = new ObjectMapper();
-            Cliente cliente = objectMapper.readValue(existeCliente, Cliente.class);
             cliente.deleteCliente();
             IClienteRepository.save(cliente);
-            return cliente.toJson();
-        }catch (JsonProcessingException e){
+            return cliente;
+        }catch (RuntimeException e){
             throw new RuntimeException(e);
         }
     }

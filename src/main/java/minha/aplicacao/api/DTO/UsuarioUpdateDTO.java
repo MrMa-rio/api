@@ -10,6 +10,6 @@ public record UsuarioUpdateDTO (
         int idUsuario,
         Integer status,
         String senha,
-        String imagem_64,
-        Integer nivel_acesso
+        String imagem64,
+        Integer nivelAcesso
 ){}

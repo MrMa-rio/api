@@ -10,17 +10,17 @@ public record ClienteCreateDTO(
         @NotBlank
         String nome,
         @NotNull
-        String data_nascimento,
+        String dataNascimento,
         @Id
         int idCliente,
         int status,
         @NotBlank
         String senha,
-        String imagem_64,
+        String imagem64,
         @NotBlank @Pattern(regexp = "\\d{11}")
         String cpf,
         @NotNull
-        int nivel_acesso,
+        int nivelAcesso,
         @Email @NotNull
         String email) {
 

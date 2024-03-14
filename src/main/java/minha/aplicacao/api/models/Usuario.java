@@ -20,12 +20,13 @@ public class Usuario extends Pessoa{
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int idUsuario;
     private String senha;
-    private int nivel_acesso;
+    @Column(name = "nivel_acesso")
+    private int nivelAcesso;
 
     public Usuario(@NotNull UsuarioCreateDTO usuarioCreateDTO) {
-        super(usuarioCreateDTO.nome(), usuarioCreateDTO.data_nascimento(), usuarioCreateDTO.imagem_64(), usuarioCreateDTO.cpf(), usuarioCreateDTO.email());
+        super(usuarioCreateDTO.nome(), usuarioCreateDTO.dataNascimento(), usuarioCreateDTO.imagem64(), usuarioCreateDTO.cpf(), usuarioCreateDTO.email());
         this.senha = usuarioCreateDTO.senha();
-        this.nivel_acesso = usuarioCreateDTO.nivel_acesso();
+        this.nivelAcesso = usuarioCreateDTO.nivelAcesso();
         this.idUsuario = usuarioCreateDTO.idUsuario();
         this.status = usuarioCreateDTO.status();
     }
@@ -41,14 +42,14 @@ public class Usuario extends Pessoa{
         if(usuarioUpdateDTO.nome() != null){
             setNome(usuarioUpdateDTO.nome());
         }
-        if(usuarioUpdateDTO.nivel_acesso() != null){
-            this.nivel_acesso = usuarioUpdateDTO.nivel_acesso();
+        if(usuarioUpdateDTO.nivelAcesso() != null){
+            this.nivelAcesso = usuarioUpdateDTO.nivelAcesso();
         }
         if(usuarioUpdateDTO.senha() != null){
             this.senha = usuarioUpdateDTO.senha();
         }
-        if(usuarioUpdateDTO.imagem_64() != null){
-            this.setImagem_64(usuarioUpdateDTO.imagem_64());
+        if(usuarioUpdateDTO.imagem64() != null){
+            this.setImagem64(usuarioUpdateDTO.imagem64());
         }
         if(usuarioUpdateDTO.status() != null){
             this.status = usuarioUpdateDTO.status();
