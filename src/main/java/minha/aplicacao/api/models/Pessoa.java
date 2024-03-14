@@ -1,5 +1,6 @@
 package minha.aplicacao.api.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.Column;
 import jakarta.persistence.MappedSuperclass;
 import lombok.Getter;
@@ -9,7 +10,8 @@ import lombok.Setter;
 @MappedSuperclass
 @Getter
 @Setter
-@NoArgsConstructor
+
+
 public class Pessoa {
 
     private String nome;
@@ -21,6 +23,13 @@ public class Pessoa {
     private String cpf;
     private String email;
 
+    public Pessoa(){
+        this.nome = "";
+        this.dataNascimento = "";
+        this.imagem64= "";
+        this.cpf = "";
+        this.email = "";
+    }
 
     public Pessoa(String nome, String dataNascimento, String imagem_64, String cpf, String email) {
         this.nome = nome;
@@ -37,5 +46,10 @@ public class Pessoa {
     }
     public void setImagem64(String imagem_64) {
         this.imagem64 = imagem64;
+    }
+
+    @JsonIgnore
+    public boolean isValid(){
+        return !cpf.isEmpty();
     }
 }

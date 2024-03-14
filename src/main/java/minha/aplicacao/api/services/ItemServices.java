@@ -1,13 +1,13 @@
 package minha.aplicacao.api.services;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import minha.aplicacao.api.DTO.ItemCreateDTO;
 import minha.aplicacao.api.DTO.ItemUpdateDTO;
+import minha.aplicacao.api.exceptions.itemExceptions.ItemNotFoundException;
+import minha.aplicacao.api.exceptions.itemExceptions.ItemsNotFoundException;
 import minha.aplicacao.api.models.Item;
 import minha.aplicacao.api.repository.IItemRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import java.util.ArrayList;
 import java.util.Optional;
 
@@ -16,31 +16,36 @@ public class ItemServices {
 
     @Autowired
     private IItemRepository iItemRepository;
-    public Item setItem(ItemCreateDTO itemCreateDTO){
-        Item item = new Item(itemCreateDTO);
-        iItemRepository.save(item);
+
+    public Item setItem(ItemCreateDTO itemCreateDTO) {
         try {
+            Item item = new Item(itemCreateDTO);
+            iItemRepository.save(item);
             return item;
         } catch (RuntimeException e) {
             throw new RuntimeException(e);
         }
     }
-    public ArrayList<Item> getItems(){
+    public ArrayList<Item> getItems() {
         ArrayList<Item> items = (ArrayList<Item>) iItemRepository.findAll();
+        if(items.isEmpty()) throw new ItemsNotFoundException();
         return items;
     }
-    public Item getItem(Integer idItem){
+    public Item getItemPorId(Integer idItem) {
         Optional<Item> item = iItemRepository.findById(idItem);
-        return item.orElseThrow();
+        if(item.isEmpty()) throw new ItemNotFoundException();
+        return item.get();
     }
-    public Item updateItem(ItemUpdateDTO itemUpdateDTO){
-        Item item = getItem(itemUpdateDTO.idItem());
-        item.updateItem(itemUpdateDTO);
-        iItemRepository.save(item);
-        return item;
+    public Item updateItem(ItemUpdateDTO itemUpdateDTO) {
+        Item item = getItemPorId(itemUpdateDTO.idItem());
+        try{
+            item.updateItem(itemUpdateDTO);
+            iItemRepository.save(item);
+            return item;
+        } catch (RuntimeException e){throw new RuntimeException(e);}
     }
-    public Item deleteitem(Integer idItem){
-        Item item = getItem(idItem);
+    public Item deleteitem(Integer idItem) {
+        Item item = getItemPorId(idItem);
         iItemRepository.deleteById(idItem);
         return item;
     }

@@ -4,6 +4,8 @@ import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import minha.aplicacao.api.DTO.ClienteCreateDTO;
 import minha.aplicacao.api.DTO.ClienteUpdateDTO;
+import minha.aplicacao.api.exceptions.clientExceptions.ClientNotFoundException;
+import minha.aplicacao.api.exceptions.clientExceptions.ClientsNotFoundException;
 import minha.aplicacao.api.models.Cliente;
 import minha.aplicacao.api.responseBody.ResponseBody;
 import minha.aplicacao.api.services.ClienteServices;
@@ -33,8 +35,13 @@ public class ClienteController {
         try {
             return ResponseEntity.ok(clienteServices.getClientes());
         }
-        catch (Exception e){
-            return ResponseEntity.badRequest().body(e.getMessage());
+        catch (ClientsNotFoundException e){
+            ResponseBody responseBody = new ResponseBody(404, e.getMessage());
+            return ResponseEntity.ok(responseBody);
+        }
+        catch (RuntimeException e){
+            ResponseBody responseBody = new ResponseBody(400, e.getMessage());
+            return ResponseEntity.badRequest().body(responseBody);
         }
     }
     @GetMapping("/{idCliente}")
@@ -42,13 +49,17 @@ public class ClienteController {
         try {
             Cliente cliente = clienteServices.getClientePorId(Integer.valueOf(idCliente));
             return ResponseEntity.ok(cliente);
-        } catch (NoSuchElementException e) {
-            ResponseBody responseBody = new ResponseBody(404, "Cliente nao encontrado");
+        } catch (ClientNotFoundException e) {
+            ResponseBody responseBody = new ResponseBody(404, e.getMessage());
             return ResponseEntity.ok(responseBody);
         }
         catch (NumberFormatException e){
-            ResponseBody responseBody = new ResponseBody(400, "Cliente Invalido!!");
+            ResponseBody responseBody = new ResponseBody(400, "CLIENTE INVALIDO!!");
             return ResponseEntity.ok(responseBody);
+        }
+        catch (RuntimeException e){
+            ResponseBody responseBody = new ResponseBody(400, e.getMessage());
+            return ResponseEntity.badRequest().body(responseBody);
         }
     }
     @PutMapping
@@ -56,8 +67,8 @@ public class ClienteController {
     public ResponseEntity<?> updateCliente(@RequestBody @Valid ClienteUpdateDTO clienteUpdateDTO) {
         try{
             return ResponseEntity.ok(clienteServices.updateCliente(clienteUpdateDTO));
-        }catch (NoSuchElementException e){
-            ResponseBody responseBody = new ResponseBody(404, "Nao foi possivel encontrar este cliente!");
+        }catch (ClientNotFoundException e){
+            ResponseBody responseBody = new ResponseBody(404, e.getMessage());
             return ResponseEntity.ok(responseBody);
         }
     }
@@ -67,15 +78,16 @@ public class ClienteController {
             Cliente cliente = clienteServices.deleteLogicalCliente(Integer.valueOf(idCliente));
             return ResponseEntity.ok(cliente);
         } catch (NumberFormatException e){
-            ResponseBody responseBody = new ResponseBody(400, "Cliente Invalido!!");
+            ResponseBody responseBody = new ResponseBody(400, "CLIENTE INVALIDO!!");
             return ResponseEntity.ok(responseBody);
         }
-        catch (NoSuchElementException e) {
-            ResponseBody responseBody = new ResponseBody(404, "Cliente nao encontrado");
+        catch (ClientNotFoundException e) {
+            ResponseBody responseBody = new ResponseBody(404, e.getMessage());
             return ResponseEntity.ok(responseBody);
         }
-        catch (Exception e){
-            return ResponseEntity.badRequest().body(e.getMessage());
+        catch (RuntimeException e){
+            ResponseBody responseBody = new ResponseBody(400, "CLIENTE INVALIDO!!");
+            return ResponseEntity.badRequest().body(responseBody);
         }
     }
 }

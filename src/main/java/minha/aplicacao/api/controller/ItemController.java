@@ -3,6 +3,8 @@ package minha.aplicacao.api.controller;
 import jakarta.validation.Valid;
 import minha.aplicacao.api.DTO.ItemCreateDTO;
 import minha.aplicacao.api.DTO.ItemUpdateDTO;
+import minha.aplicacao.api.exceptions.itemExceptions.ItemNotFoundException;
+import minha.aplicacao.api.exceptions.itemExceptions.ItemsNotFoundException;
 import minha.aplicacao.api.models.Item;
 import minha.aplicacao.api.responseBody.ResponseBody;
 import minha.aplicacao.api.services.ItemServices;
@@ -22,25 +24,65 @@ public class ItemController {
     public ResponseEntity<?> setItem(@RequestBody @Valid ItemCreateDTO itemCreateDTO)  {
         try{
             return ResponseEntity.ok(itemServices.setItem(itemCreateDTO));
-        }catch (Exception e){
+        }catch (RuntimeException e){
             ResponseBody responseBody = new ResponseBody(400, e.getMessage());
             return ResponseEntity.ok(responseBody);
         }
     }
     @GetMapping("/{idItem}")
-    public ResponseEntity<Item> getItem(@PathVariable String idItem){
-        return ResponseEntity.ok(itemServices.getItem(Integer.valueOf(idItem)));
+    public ResponseEntity<?> getItem(@PathVariable String idItem){
+        try{
+            return ResponseEntity.ok(itemServices.getItemPorId(Integer.valueOf(idItem)));
+        } catch (ItemNotFoundException e){
+            ResponseBody responseBody = new ResponseBody(404, e.getMessage());
+            return ResponseEntity.ok(responseBody);
+        }
+        catch (NumberFormatException e){
+            ResponseBody responseBody = new ResponseBody(400, "ITEM INVALIDO");
+            return ResponseEntity.badRequest().body(responseBody);
+        }
+        catch (RuntimeException e){
+            ResponseBody responseBody = new ResponseBody(400, e.getMessage());
+            return ResponseEntity.badRequest().body(responseBody);
+        }
     }
     @GetMapping
-    public ResponseEntity<ArrayList<Item>> getItens(){
-        return ResponseEntity.ok(itemServices.getItems());
+    public ResponseEntity<?> getItens(){
+        try{
+            return ResponseEntity.ok(itemServices.getItems());
+        } catch (ItemsNotFoundException e) {
+            ResponseBody responseBody = new ResponseBody(404, e.getMessage());
+            return ResponseEntity.ok(responseBody);
+        }
+        catch (RuntimeException e){
+            ResponseBody responseBody = new ResponseBody(400, e.getMessage());
+            return ResponseEntity.badRequest().body(responseBody);
+        }
     }
     @PutMapping
-    public ResponseEntity<Item> updateItem(@RequestBody ItemUpdateDTO itemUpdateDTO){
-        return ResponseEntity.ok(itemServices.updateItem(itemUpdateDTO));
+    public ResponseEntity<?> updateItem(@RequestBody ItemUpdateDTO itemUpdateDTO){
+       try{
+           return ResponseEntity.ok(itemServices.updateItem(itemUpdateDTO));
+       }catch (ItemNotFoundException e){
+           ResponseBody responseBody = new ResponseBody(404, e.getMessage());
+           return ResponseEntity.ok(responseBody);
+       }
+       catch (RuntimeException e){
+           ResponseBody responseBody = new ResponseBody(400, e.getMessage());
+           return ResponseEntity.badRequest().body(responseBody);
+       }
     }
     @DeleteMapping("/{idItem}")
-    public ResponseEntity<Item> deleteItem(@PathVariable String idItem){
-        return ResponseEntity.ok(itemServices.deleteitem(Integer.valueOf(idItem)));
+    public ResponseEntity<?> deleteItem(@PathVariable String idItem){
+        try{
+            return ResponseEntity.ok(itemServices.deleteitem(Integer.valueOf(idItem)));
+        }catch (ItemNotFoundException e){
+            ResponseBody responseBody = new ResponseBody(404, e.getMessage());
+            return ResponseEntity.ok(responseBody);
+        }
+        catch (RuntimeException e){
+            ResponseBody responseBody = new ResponseBody(400, e.getMessage());
+            return ResponseEntity.badRequest().body(responseBody);
+        }
     }
 }

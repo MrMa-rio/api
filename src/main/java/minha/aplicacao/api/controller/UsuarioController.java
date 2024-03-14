@@ -1,19 +1,17 @@
 package minha.aplicacao.api.controller;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import minha.aplicacao.api.DTO.UsuarioCreateDTO;
 import minha.aplicacao.api.DTO.UsuarioUpdateDTO;
+import minha.aplicacao.api.exceptions.userExceptions.UserNotFoundException;
+import minha.aplicacao.api.exceptions.userExceptions.UsersNotFoundException;
 import minha.aplicacao.api.models.Usuario;
 import minha.aplicacao.api.responseBody.ResponseBody;
 import minha.aplicacao.api.services.UsuarioServices;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.NoSuchElementException;
 
 @RestController
 
@@ -35,7 +33,11 @@ public class UsuarioController {
         try {
             return ResponseEntity.ok(usuarioServices.getUsuarios());
         }
-        catch (Exception e){
+        catch (UsersNotFoundException e) {
+            ResponseBody responseBody = new ResponseBody(404, e.getMessage());
+            return ResponseEntity.ok(responseBody);
+        }
+        catch (RuntimeException e){
             return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
@@ -44,12 +46,12 @@ public class UsuarioController {
         try {
             Usuario usuario = usuarioServices.getUsuarioPorId(Integer.valueOf(idUsuario));
             return ResponseEntity.ok(usuario);
-        } catch (NoSuchElementException e) {
-            ResponseBody responseBody = new ResponseBody(404, "Usuario nao encontrado");
+        } catch (UserNotFoundException e) {
+            ResponseBody responseBody = new ResponseBody(404, e.getMessage());
             return ResponseEntity.ok(responseBody);
         }
         catch (NumberFormatException e){
-            ResponseBody responseBody = new ResponseBody(400, "Usuario Invalido!!");
+            ResponseBody responseBody = new ResponseBody(400, "USUARIO INVALIDO!!");
             return ResponseEntity.ok(responseBody);
         }
     }
@@ -59,8 +61,8 @@ public class UsuarioController {
 
         try{
             return ResponseEntity.ok(usuarioServices.updateUsuario(usuarioUpdateDTO));
-        }catch (NoSuchElementException e){
-            ResponseBody responseBody = new ResponseBody(404, "Nao foi possivel encontrar este usuario!");
+        }catch (UserNotFoundException e){
+            ResponseBody responseBody = new ResponseBody(404, e.getMessage());
             return ResponseEntity.ok(responseBody);
         }
     }
@@ -71,15 +73,12 @@ public class UsuarioController {
             Usuario usuario = usuarioServices.deleteLogicalUsuario(Integer.valueOf(idUsuario));
             return ResponseEntity.ok(usuario);
         } catch (NumberFormatException e){
-            ResponseBody responseBody = new ResponseBody(400, "Usuario Invalido!!");
+            ResponseBody responseBody = new ResponseBody(400, "USUARIO INVALIDO!!");
+            return ResponseEntity.ok(responseBody);
+        }catch (UserNotFoundException e){
+            ResponseBody responseBody = new ResponseBody(404, e.getMessage());
             return ResponseEntity.ok(responseBody);
         }
-        catch (NoSuchElementException e) {
-            ResponseBody responseBody = new ResponseBody(404, "Usuario nao encontrado");
-            return ResponseEntity.ok(responseBody);
-        }
-        catch (Exception e){
-            return ResponseEntity.badRequest().body(e.getMessage());
-        }
+
     }
 }

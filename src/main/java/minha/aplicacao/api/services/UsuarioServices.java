@@ -1,16 +1,18 @@
 package minha.aplicacao.api.services;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
-import jakarta.persistence.EntityNotFoundException;
+
 import minha.aplicacao.api.DTO.UsuarioCreateDTO;
 import minha.aplicacao.api.DTO.UsuarioUpdateDTO;
+import minha.aplicacao.api.exceptions.userExceptions.UserDuplicateDataException;
+import minha.aplicacao.api.exceptions.userExceptions.UserNotFoundException;
+import minha.aplicacao.api.exceptions.userExceptions.UsersNotFoundException;
 import minha.aplicacao.api.models.Usuario;
 import minha.aplicacao.api.repository.IUsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
+
+import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.NoSuchElementException;
 import java.util.Optional;
 
 @Service
@@ -24,31 +26,23 @@ public class UsuarioServices {
             Usuario usuario = new Usuario(usuarioCreateDTO);
             IUsuarioRepository.save(usuario);
             return usuario;
-        } catch (RuntimeException e) {
-            throw new RuntimeException(e);
+        } catch (DataIntegrityViolationException e) {
+            throw new UserDuplicateDataException();
         }
     }
     public ArrayList<Usuario> getUsuarios(){
         ArrayList<Usuario> usuario = (ArrayList<Usuario>) IUsuarioRepository.findAll();
-        try {
-            return usuario;
-        } catch (RuntimeException e) {
-            throw new RuntimeException(e);
-        }
+        if(usuario.isEmpty()) throw new UsersNotFoundException();
+        return usuario;
     }
     public Usuario getUsuarioPorId(Integer usuarioId){
 
-        try {
-            Optional<Usuario> usuario = IUsuarioRepository.findById(usuarioId);
-            return usuario.orElseThrow();
-        }
-        catch (NoSuchElementException e){
-            throw new NoSuchElementException(e);
-        }
+        Optional<Usuario> usuario = IUsuarioRepository.findById(usuarioId);
+        if(usuario.isEmpty()) throw new UserNotFoundException();
+        return usuario.get();
     }
     public Usuario updateUsuario(UsuarioUpdateDTO usuarioUpdateDTO) {
         Usuario usuario = getUsuarioPorId(usuarioUpdateDTO.idUsuario());
-        if(usuario == null ) return null;
         try{
             usuario.updateUsuario(usuarioUpdateDTO);
             IUsuarioRepository.save(usuario);
@@ -59,7 +53,6 @@ public class UsuarioServices {
     }
     public Usuario deleteLogicalUsuario(Integer idUsuario){
         Usuario usuario = getUsuarioPorId(idUsuario);
-        if(usuario == null) return null;
         try{
             usuario.deleteUsuario();
             IUsuarioRepository.save(usuario);
