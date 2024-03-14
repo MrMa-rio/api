@@ -6,6 +6,7 @@ import jakarta.persistence.*;
 import minha.aplicacao.api.DTO.ItemCreateDTO;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import minha.aplicacao.api.DTO.ItemUpdateDTO;
 
 @Table(name = "tb_item")
 @Entity
@@ -32,5 +33,12 @@ public class Item {
     public String toJson() throws JsonProcessingException {
         ObjectMapper objectMapper = new ObjectMapper();
         return objectMapper.writeValueAsString(this);
+    }
+
+    public void updateItem(ItemUpdateDTO itemUpdateDTO){
+        if(itemUpdateDTO.nome() != null) {this.nome = itemUpdateDTO.nome();}
+        if(itemUpdateDTO.imagem64() != null) {this.imagem64 = itemUpdateDTO.imagem64();}
+        if(itemUpdateDTO.precoUnitario() != null) {this.precoUnitario = itemUpdateDTO.precoUnitario();}
+
     }
 }

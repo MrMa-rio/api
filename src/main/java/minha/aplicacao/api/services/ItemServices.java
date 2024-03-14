@@ -8,6 +8,9 @@ import minha.aplicacao.api.repository.IItemRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.Optional;
+
 @Service
 public class ItemServices {
 
@@ -22,22 +25,23 @@ public class ItemServices {
             throw new RuntimeException(e);
         }
     }
-    public String getItems(){
-        //TODO
-        return "";
+    public ArrayList<Item> getItems(){
+        ArrayList<Item> items = (ArrayList<Item>) iItemRepository.findAll();
+        return items;
     }
-    public String getItem(Integer idItem){
-        //TODO
-        return "";
+    public Item getItem(Integer idItem){
+        Optional<Item> item = iItemRepository.findById(idItem);
+        return item.orElseThrow();
     }
-    public String updateItem(ItemUpdateDTO itemUpdateDTO){
-        //TODO
-        return "";
+    public Item updateItem(ItemUpdateDTO itemUpdateDTO){
+        Item item = getItem(itemUpdateDTO.idItem());
+        item.updateItem(itemUpdateDTO);
+        iItemRepository.save(item);
+        return item;
     }
-    public String deleteitem(Integer idItem){
-        //TODO
-        return "";
+    public Item deleteitem(Integer idItem){
+        Item item = getItem(idItem);
+        iItemRepository.deleteById(idItem);
+        return item;
     }
-
-
 }
