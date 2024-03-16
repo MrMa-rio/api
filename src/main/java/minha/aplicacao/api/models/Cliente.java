@@ -5,8 +5,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import minha.aplicacao.api.DTO.ClienteCreateDTO;
-import minha.aplicacao.api.DTO.ClienteUpdateDTO;
+import minha.aplicacao.api.DTO.Cliente.ClienteCreateDTO;
+import minha.aplicacao.api.DTO.Cliente.ClienteUpdateDTO;
 import org.jetbrains.annotations.NotNull;
 
 @Table(name = "tb_cliente")

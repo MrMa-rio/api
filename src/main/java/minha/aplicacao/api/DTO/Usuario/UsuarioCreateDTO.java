@@ -1,18 +1,14 @@
-package minha.aplicacao.api.DTO;
-
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Pattern;
+package minha.aplicacao.api.DTO.Usuario;
+import jakarta.validation.constraints.*;
 import org.springframework.data.annotation.Id;
 
-public record ClienteCreateDTO(
+public record UsuarioCreateDTO(
         @NotBlank
         String nome,
         @NotNull
         String dataNascimento,
         @Id
-        int idCliente,
+        int idUsuario,
         int status,
         @NotBlank
         String senha,

@@ -1,18 +1,16 @@
 package minha.aplicacao.api.controller;
 
 import jakarta.validation.Valid;
-import minha.aplicacao.api.DTO.ItemCreateDTO;
-import minha.aplicacao.api.DTO.ItemUpdateDTO;
+import minha.aplicacao.api.DTO.Item.ItemCreateDTO;
+import minha.aplicacao.api.DTO.Item.ItemUpdateDTO;
 import minha.aplicacao.api.exceptions.itemExceptions.ItemNotFoundException;
 import minha.aplicacao.api.exceptions.itemExceptions.ItemsNotFoundException;
-import minha.aplicacao.api.models.Item;
 import minha.aplicacao.api.responseBody.ResponseBody;
 import minha.aplicacao.api.services.ItemServices;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 
 @RestController
 @RequestMapping({"itens","itens/"})

@@ -2,8 +2,8 @@ package minha.aplicacao.api.controller;
 
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
-import minha.aplicacao.api.DTO.ClienteCreateDTO;
-import minha.aplicacao.api.DTO.ClienteUpdateDTO;
+import minha.aplicacao.api.DTO.Cliente.ClienteCreateDTO;
+import minha.aplicacao.api.DTO.Cliente.ClienteUpdateDTO;
 import minha.aplicacao.api.exceptions.clientExceptions.ClientNotFoundException;
 import minha.aplicacao.api.exceptions.clientExceptions.ClientsNotFoundException;
 import minha.aplicacao.api.models.Cliente;
@@ -12,8 +12,6 @@ import minha.aplicacao.api.services.ClienteServices;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.NoSuchElementException;
 
 @RestController
 @RequestMapping({"clientes", "clientes/"})

@@ -2,8 +2,8 @@ package minha.aplicacao.api.controller;
 
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
-import minha.aplicacao.api.DTO.UsuarioCreateDTO;
-import minha.aplicacao.api.DTO.UsuarioUpdateDTO;
+import minha.aplicacao.api.DTO.Usuario.UsuarioCreateDTO;
+import minha.aplicacao.api.DTO.Usuario.UsuarioUpdateDTO;
 import minha.aplicacao.api.exceptions.userExceptions.UserNotFoundException;
 import minha.aplicacao.api.exceptions.userExceptions.UsersNotFoundException;
 import minha.aplicacao.api.models.Usuario;

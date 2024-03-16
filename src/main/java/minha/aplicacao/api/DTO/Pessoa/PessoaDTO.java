@@ -1,4 +1,4 @@
-package minha.aplicacao.api.DTO;
+package minha.aplicacao.api.DTO.Pessoa;
 
 import java.time.LocalDateTime;
 

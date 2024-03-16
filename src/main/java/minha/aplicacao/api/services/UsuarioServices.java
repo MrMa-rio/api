@@ -1,7 +1,7 @@
 package minha.aplicacao.api.services;
 
-import minha.aplicacao.api.DTO.UsuarioCreateDTO;
-import minha.aplicacao.api.DTO.UsuarioUpdateDTO;
+import minha.aplicacao.api.DTO.Usuario.UsuarioCreateDTO;
+import minha.aplicacao.api.DTO.Usuario.UsuarioUpdateDTO;
 import minha.aplicacao.api.exceptions.userExceptions.UserDuplicateDataException;
 import minha.aplicacao.api.exceptions.userExceptions.UserNotFoundException;
 import minha.aplicacao.api.exceptions.userExceptions.UsersNotFoundException;
@@ -11,7 +11,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Optional;
 

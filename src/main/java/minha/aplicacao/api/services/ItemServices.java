@@ -1,7 +1,7 @@
 package minha.aplicacao.api.services;
 
-import minha.aplicacao.api.DTO.ItemCreateDTO;
-import minha.aplicacao.api.DTO.ItemUpdateDTO;
+import minha.aplicacao.api.DTO.Item.ItemCreateDTO;
+import minha.aplicacao.api.DTO.Item.ItemUpdateDTO;
 import minha.aplicacao.api.exceptions.itemExceptions.ItemNotFoundException;
 import minha.aplicacao.api.exceptions.itemExceptions.ItemsNotFoundException;
 import minha.aplicacao.api.models.Item;

@@ -3,10 +3,10 @@ package minha.aplicacao.api.models;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.persistence.*;
-import minha.aplicacao.api.DTO.ItemCreateDTO;
+import minha.aplicacao.api.DTO.Item.ItemCreateDTO;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import minha.aplicacao.api.DTO.ItemUpdateDTO;
+import minha.aplicacao.api.DTO.Item.ItemUpdateDTO;
 
 @Table(name = "tb_item")
 @Entity

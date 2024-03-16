@@ -1,14 +1,13 @@
-package minha.aplicacao.api.DTO;
+package minha.aplicacao.api.DTO.Usuario;
 
 import jakarta.validation.constraints.NotNull;
 import org.springframework.data.annotation.Id;
-import org.springframework.format.annotation.NumberFormat;
 
-public record ClienteUpdateDTO(
+public record UsuarioUpdateDTO (
         String nome,
         String dataNascimento,
-        @Id @NotNull @NumberFormat
-        int idCliente,
+        @Id @NotNull
+        int idUsuario,
         Integer status,
         String senha,
         String imagem64,

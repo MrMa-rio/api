@@ -1,7 +1,7 @@
 package minha.aplicacao.api.services;
 
-import minha.aplicacao.api.DTO.ClienteCreateDTO;
-import minha.aplicacao.api.DTO.ClienteUpdateDTO;
+import minha.aplicacao.api.DTO.Cliente.ClienteCreateDTO;
+import minha.aplicacao.api.DTO.Cliente.ClienteUpdateDTO;
 import minha.aplicacao.api.exceptions.clientExceptions.ClientDuplicateDataException;
 import minha.aplicacao.api.exceptions.clientExceptions.ClientNotFoundException;
 import minha.aplicacao.api.exceptions.clientExceptions.ClientsNotFoundException;
