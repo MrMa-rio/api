@@ -1,4 +1,4 @@
-package minha.aplicacao.api.models;
+package minha.aplicacao.api.models.Pedido;
 
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -18,15 +18,21 @@ public class Pedido {
     private Date dataPedido;
     @Column(name = "fk_cliente")
     private Integer fkCliente;
-    private String descricao;
+    private final String descricao;
     @Column(name = "status_pedido")
-    private Integer statusPedido;
+    private StatusPedidoEnum statusPedido;
 
     public Pedido(PedidoCreateDTO pedidoCreateDTO){
         this.idPedido = pedidoCreateDTO.idPedido();
         this.dataPedido = pedidoCreateDTO.dataPedido();
         this.fkCliente = pedidoCreateDTO.fkCliente();
         this.descricao = pedidoCreateDTO.descricao();
-        this.statusPedido = pedidoCreateDTO.statusPedido();
+        this.statusPedido = StatusPedidoEnum.PROCESSANDO;
+    }
+    public void updatePedido(StatusPedidoEnum statusPedidoEnum){
+        this.statusPedido = statusPedidoEnum;
+    }
+    public void cancelPedido(){
+        this.statusPedido = StatusPedidoEnum.CANCELADO;
     }
 }

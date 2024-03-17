@@ -5,7 +5,7 @@ import minha.aplicacao.api.DTO.Usuario.UsuarioUpdateDTO;
 import minha.aplicacao.api.exceptions.userExceptions.UserDuplicateDataException;
 import minha.aplicacao.api.exceptions.userExceptions.UserNotFoundException;
 import minha.aplicacao.api.exceptions.userExceptions.UsersNotFoundException;
-import minha.aplicacao.api.models.Usuario;
+import minha.aplicacao.api.models.Usuario.Usuario;
 import minha.aplicacao.api.repository.IUsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;

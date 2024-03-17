@@ -6,11 +6,12 @@ import minha.aplicacao.api.DTO.Cliente.ClienteCreateDTO;
 import minha.aplicacao.api.DTO.Cliente.ClienteUpdateDTO;
 import minha.aplicacao.api.exceptions.clientExceptions.ClientNotFoundException;
 import minha.aplicacao.api.exceptions.clientExceptions.ClientsNotFoundException;
-import minha.aplicacao.api.models.Cliente;
+import minha.aplicacao.api.models.Cliente.Cliente;
 import minha.aplicacao.api.responseBody.ResponseBody;
 import minha.aplicacao.api.services.ClienteServices;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -68,7 +69,7 @@ public class ClienteController {
         }catch (ClientNotFoundException e){
             ResponseBody responseBody = new ResponseBody(404, e.getMessage());
             return ResponseEntity.ok(responseBody);
-        }
+        } // AJUDA NA CRIACAO DA EXCECAO POIS CASO PASSADO UM VALOR QUE N ESTA SENDO ESPERADO A APLICACAO LANCA UM ERRO
     }
     @DeleteMapping("/{idCliente}")
     public ResponseEntity<?> deleteLogicalCliente(@PathVariable String idCliente) {

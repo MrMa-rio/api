@@ -5,7 +5,7 @@ import minha.aplicacao.api.DTO.Cliente.ClienteUpdateDTO;
 import minha.aplicacao.api.exceptions.clientExceptions.ClientDuplicateDataException;
 import minha.aplicacao.api.exceptions.clientExceptions.ClientNotFoundException;
 import minha.aplicacao.api.exceptions.clientExceptions.ClientsNotFoundException;
-import minha.aplicacao.api.models.Cliente;
+import minha.aplicacao.api.models.Cliente.Cliente;
 import minha.aplicacao.api.repository.IClienteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;

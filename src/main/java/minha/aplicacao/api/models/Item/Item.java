@@ -1,4 +1,4 @@
-package minha.aplicacao.api.models;
+package minha.aplicacao.api.models.Item;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;

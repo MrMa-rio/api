@@ -1,4 +1,4 @@
-package minha.aplicacao.api.models;
+package minha.aplicacao.api.models.Usuario;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -7,6 +7,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import minha.aplicacao.api.DTO.Usuario.UsuarioCreateDTO;
 import minha.aplicacao.api.DTO.Usuario.UsuarioUpdateDTO;
+import minha.aplicacao.api.models.Pessoa.Pessoa;
 import org.jetbrains.annotations.NotNull;
 
 @Table(name = "tb_usuario")
@@ -14,11 +15,11 @@ import org.jetbrains.annotations.NotNull;
 @Getter
 @NoArgsConstructor
 
-public class Usuario extends Pessoa{
+public class Usuario extends Pessoa {
 
-    private int status;
+    private StatusEnum status;
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int idUsuario;
+    private Integer idUsuario;
     private String senha;
     @Column(name = "nivel_acesso")
     private int nivelAcesso;
@@ -28,7 +29,7 @@ public class Usuario extends Pessoa{
         this.senha = usuarioCreateDTO.senha();
         this.nivelAcesso = usuarioCreateDTO.nivelAcesso();
         this.idUsuario = usuarioCreateDTO.idUsuario();
-        this.status = usuarioCreateDTO.status();
+        this.status = StatusEnum.ATIVO;
     }
 
     public String toJson() throws JsonProcessingException {
@@ -57,6 +58,6 @@ public class Usuario extends Pessoa{
     }
 
     public void deleteUsuario() {
-        this.status = 1;
+        this.status = StatusEnum.INATIVO;
     }
 }

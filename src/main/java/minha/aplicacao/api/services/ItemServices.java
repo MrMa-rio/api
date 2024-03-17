@@ -4,7 +4,7 @@ import minha.aplicacao.api.DTO.Item.ItemCreateDTO;
 import minha.aplicacao.api.DTO.Item.ItemUpdateDTO;
 import minha.aplicacao.api.exceptions.itemExceptions.ItemNotFoundException;
 import minha.aplicacao.api.exceptions.itemExceptions.ItemsNotFoundException;
-import minha.aplicacao.api.models.Item;
+import minha.aplicacao.api.models.Item.Item;
 import minha.aplicacao.api.repository.IItemRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

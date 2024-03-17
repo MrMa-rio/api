@@ -6,7 +6,7 @@ import minha.aplicacao.api.DTO.Usuario.UsuarioCreateDTO;
 import minha.aplicacao.api.DTO.Usuario.UsuarioUpdateDTO;
 import minha.aplicacao.api.exceptions.userExceptions.UserNotFoundException;
 import minha.aplicacao.api.exceptions.userExceptions.UsersNotFoundException;
-import minha.aplicacao.api.models.Usuario;
+import minha.aplicacao.api.models.Usuario.Usuario;
 import minha.aplicacao.api.responseBody.ResponseBody;
 import minha.aplicacao.api.services.UsuarioServices;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +14,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-
 @RequestMapping({"usuarios", "usuarios/"})
 public class UsuarioController {
     @Autowired

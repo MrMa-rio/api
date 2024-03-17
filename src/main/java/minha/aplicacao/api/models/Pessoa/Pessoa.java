@@ -1,4 +1,4 @@
-package minha.aplicacao.api.models;
+package minha.aplicacao.api.models.Pessoa;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.Column;
