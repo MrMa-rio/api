@@ -18,7 +18,7 @@ public class Pedido {
     private Date dataPedido;
     @Column(name = "fk_cliente")
     private Integer fkCliente;
-    private final String descricao;
+    private String descricao;
     @Column(name = "status_pedido")
     private StatusPedidoEnum statusPedido;
 

@@ -1,10 +1,14 @@
 package minha.aplicacao.api.models.ItensPedido;
 
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 import minha.aplicacao.api.DTO.ItensPedido.ItensPedidoDTO;
 
 @Table(name = "tb_itenspedido")
 @Entity
+@Getter
+@NoArgsConstructor
 public class ItensPedido {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
