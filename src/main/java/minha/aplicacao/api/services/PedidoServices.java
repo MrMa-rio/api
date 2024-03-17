@@ -32,7 +32,7 @@ public class PedidoServices {
     }
 
     public ArrayList<Pedido> getPedidosPorIdCliente(Integer idCliente){
-        ArrayList<Pedido> pedidos =(ArrayList<Pedido>) iPedidoRepository.findByFkCliente(idCliente);
+        ArrayList<Pedido> pedidos = (ArrayList<Pedido>) iPedidoRepository.findByFkCliente(idCliente);
         return pedidos;
     }
     public Pedido updatePedido(PedidoUpdateDTO pedidoUpdateDTO){

@@ -7,12 +7,15 @@ import minha.aplicacao.api.DTO.Cliente.ClienteUpdateDTO;
 import minha.aplicacao.api.exceptions.clientExceptions.ClientNotFoundException;
 import minha.aplicacao.api.exceptions.clientExceptions.ClientsNotFoundException;
 import minha.aplicacao.api.models.Cliente.Cliente;
+import minha.aplicacao.api.models.Pedido.Pedido;
 import minha.aplicacao.api.responseBody.ResponseBody;
 import minha.aplicacao.api.services.ClienteServices;
+import minha.aplicacao.api.services.PedidoServices;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.ArrayList;
 
 @RestController
 @RequestMapping({"clientes", "clientes/"})
@@ -20,6 +23,8 @@ import org.springframework.web.bind.annotation.*;
 public class ClienteController {
     @Autowired
     private ClienteServices clienteServices;
+    @Autowired
+    private PedidoServices pedidoServices;
     @PostMapping
     public ResponseEntity<?> setCliente(@RequestBody @Valid ClienteCreateDTO clienteCreateDTO) {
         try {
@@ -88,5 +93,10 @@ public class ClienteController {
             ResponseBody responseBody = new ResponseBody(400, "CLIENTE INVALIDO!!");
             return ResponseEntity.badRequest().body(responseBody);
         }
+    }
+    @GetMapping({"/{idCliente}/pedidos", "/{idCliente}/pedidos/"})
+    public ResponseEntity<?> getPedidosPorIdCliente(@PathVariable String idCliente){
+       ArrayList<Pedido> pedidos = pedidoServices.getPedidosPorIdCliente(Integer.valueOf(idCliente));
+       return ResponseEntity.ok(pedidos);
     }
 }

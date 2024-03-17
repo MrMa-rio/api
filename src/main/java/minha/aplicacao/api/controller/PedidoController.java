@@ -27,16 +27,6 @@ public class PedidoController {
         Pedido pedido = pedidoServices.getPedidoPorId(Integer.valueOf(idPedido));
         return ResponseEntity.ok(pedido);
     }
-//    @GetMapping({"/clientes/{idCliente}/pedidos", "/clientes/{idCliente}/pedidos/"})
-//    public void getPedidosPorIdCliente(@PathVariable String idCliente){
-//        TODO
-//    }
-//    @GetMapping(
-//        {"/clientes/{idCliente}/pedidos/{idPedido}"}
-//    )
-//    public void getPedidoPorIdCliente(@PathVariable(name = "idCliente") String idCliente, @PathVariable("idPedido") String idPedido){
-//        TODO
-//    } MOVER PARA CONTROLLER DO CLIENTE
     @PutMapping
     public ResponseEntity<?> updatePedido(@RequestBody @Valid PedidoUpdateDTO pedidoUpdateDTO){
         Pedido pedido = pedidoServices.updatePedido(pedidoUpdateDTO);
