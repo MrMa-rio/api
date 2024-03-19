@@ -9,34 +9,40 @@ import minha.aplicacao.api.models.Usuario.Usuario;
 import minha.aplicacao.api.repository.IUsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.Optional;
 
 @Service
-public class UsuarioServices {
+public class UsuarioServices implements UserDetailsService {
     @Autowired
-    private IUsuarioRepository IUsuarioRepository;
+    private IUsuarioRepository iUsuarioRepository;
     public UsuarioServices(){
     }
     public Usuario setUsuario(UsuarioCreateDTO usuarioCreateDTO) {
         try {
+            BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
             Usuario usuario = new Usuario(usuarioCreateDTO);
-            IUsuarioRepository.save(usuario);
+            usuario.setSenha(bCryptPasswordEncoder.encode(usuarioCreateDTO.senha())); //Encapsulate
+            iUsuarioRepository.save(usuario);
             return usuario;
         } catch (DataIntegrityViolationException e) {
             throw new UserDuplicateDataException();
         }
     }
     public ArrayList<Usuario> getUsuarios(){
-        ArrayList<Usuario> usuario = (ArrayList<Usuario>) IUsuarioRepository.findAll();
+        ArrayList<Usuario> usuario = (ArrayList<Usuario>) iUsuarioRepository.findAll();
         if(usuario.isEmpty()) throw new UsersNotFoundException();
         return usuario;
     }
     public Usuario getUsuarioPorId(Integer usuarioId){
 
-        Optional<Usuario> usuario = IUsuarioRepository.findById(usuarioId);
+        Optional<Usuario> usuario = iUsuarioRepository.findById(usuarioId);
         if(usuario.isEmpty()) throw new UserNotFoundException();
         return usuario.get();
     }
@@ -44,7 +50,7 @@ public class UsuarioServices {
         Usuario usuario = getUsuarioPorId(usuarioUpdateDTO.idUsuario());
         try{
             usuario.updateUsuario(usuarioUpdateDTO);
-            IUsuarioRepository.save(usuario);
+            iUsuarioRepository.saveAndFlush(usuario);
             return usuario;
         }catch (RuntimeException e){
             throw new RuntimeException(e);
@@ -54,10 +60,18 @@ public class UsuarioServices {
         Usuario usuario = getUsuarioPorId(idUsuario);
         try{
             usuario.deleteUsuario();
-            IUsuarioRepository.save(usuario);
+            iUsuarioRepository.save(usuario);
             return usuario;
         }catch (RuntimeException e){
             throw new RuntimeException(e);
         }
     }
+    @Override
+    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+
+        return iUsuarioRepository.findByEmail(email);
+    }
+
+
+
 }

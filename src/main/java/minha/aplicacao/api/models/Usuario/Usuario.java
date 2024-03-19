@@ -10,6 +10,10 @@ import minha.aplicacao.api.DTO.Usuario.UsuarioCreateDTO;
 import minha.aplicacao.api.DTO.Usuario.UsuarioUpdateDTO;
 import minha.aplicacao.api.models.Pessoa.Pessoa;
 import org.jetbrains.annotations.NotNull;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+
+import java.util.Collection;
 
 @Table(name = "tb_usuario")
 @Entity
@@ -17,11 +21,12 @@ import org.jetbrains.annotations.NotNull;
 @Setter
 @NoArgsConstructor
 
-public class Usuario extends Pessoa {
+public class Usuario extends Pessoa implements UserDetails {
 
     private StatusEnum status;
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer idUsuario;
+    @Setter
     private String senha;
     @Column(name = "nivel_acesso")
     private int nivelAcesso;
@@ -64,5 +69,45 @@ public class Usuario extends Pessoa {
 
     public void deleteUsuario() {
         this.status = StatusEnum.INATIVO;
+    }
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return null;
+    }
+
+
+    @Override
+    public String getPassword() {
+        return this.senha;
+    }
+
+    @Override
+    public String getUsername() {
+        return this.email;
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return true;
+    }
+
+    public void setSenha(String senha) {
+        this.senha = senha;
     }
 }
