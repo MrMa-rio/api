@@ -23,6 +23,7 @@ public class Cliente extends Pessoa {
     private String senha;
     @Column(name = "nivel_acesso")
     private int nivelAcesso;
+    private String email;
 
     public Cliente(@NotNull ClienteCreateDTO clienteCreateDTO) {
         super(clienteCreateDTO.nome(), clienteCreateDTO.dataNascimento(), clienteCreateDTO.imagem64(), clienteCreateDTO.cpf(), clienteCreateDTO.email());
@@ -30,6 +31,7 @@ public class Cliente extends Pessoa {
         this.nivelAcesso = clienteCreateDTO.nivelAcesso();
         this.idCliente = clienteCreateDTO.idCliente();
         this.status = StatusEnum.ATIVO;
+        this.email = clienteCreateDTO.email();
     }
 
     public String toJson() throws JsonProcessingException {

@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import minha.aplicacao.api.DTO.Usuario.UsuarioCreateDTO;
 import minha.aplicacao.api.DTO.Usuario.UsuarioUpdateDTO;
 import minha.aplicacao.api.models.Pessoa.Pessoa;
@@ -13,6 +14,7 @@ import org.jetbrains.annotations.NotNull;
 @Table(name = "tb_usuario")
 @Entity
 @Getter
+@Setter
 @NoArgsConstructor
 
 public class Usuario extends Pessoa {
@@ -23,6 +25,8 @@ public class Usuario extends Pessoa {
     private String senha;
     @Column(name = "nivel_acesso")
     private int nivelAcesso;
+    private String email;
+
 
     public Usuario(@NotNull UsuarioCreateDTO usuarioCreateDTO) {
         super(usuarioCreateDTO.nome(), usuarioCreateDTO.dataNascimento(), usuarioCreateDTO.imagem64(), usuarioCreateDTO.cpf(), usuarioCreateDTO.email());
@@ -30,6 +34,7 @@ public class Usuario extends Pessoa {
         this.nivelAcesso = usuarioCreateDTO.nivelAcesso();
         this.idUsuario = usuarioCreateDTO.idUsuario();
         this.status = StatusEnum.ATIVO;
+        this.email = usuarioCreateDTO.email();
     }
 
     public String toJson() throws JsonProcessingException {
