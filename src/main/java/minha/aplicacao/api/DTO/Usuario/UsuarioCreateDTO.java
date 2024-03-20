@@ -1,5 +1,6 @@
 package minha.aplicacao.api.DTO.Usuario;
 import jakarta.validation.constraints.*;
+import minha.aplicacao.api.models.Usuario.StatusEnum;
 import org.springframework.data.annotation.Id;
 
 public record UsuarioCreateDTO(
@@ -9,7 +10,7 @@ public record UsuarioCreateDTO(
         String dataNascimento,
         @Id
         int idUsuario,
-        int status,
+        StatusEnum status,
         @NotBlank
         String senha,
         String imagem64,

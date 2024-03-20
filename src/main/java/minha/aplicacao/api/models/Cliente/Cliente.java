@@ -9,6 +9,7 @@ import minha.aplicacao.api.DTO.Cliente.ClienteCreateDTO;
 import minha.aplicacao.api.DTO.Cliente.ClienteUpdateDTO;
 import minha.aplicacao.api.models.Pessoa.Pessoa;
 import org.jetbrains.annotations.NotNull;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 @Table(name = "tb_cliente")
 @Entity
@@ -23,13 +24,15 @@ public class Cliente extends Pessoa {
     private String senha;
     @Column(name = "nivel_acesso")
     private int nivelAcesso;
+    private String email;
 
     public Cliente(@NotNull ClienteCreateDTO clienteCreateDTO) {
-        super(clienteCreateDTO.nome(), clienteCreateDTO.dataNascimento(), clienteCreateDTO.imagem64(), clienteCreateDTO.cpf(), clienteCreateDTO.email());
-        this.senha = clienteCreateDTO.senha();
+        super(clienteCreateDTO.nome(), clienteCreateDTO.dataNascimento(), clienteCreateDTO.imagem64(), clienteCreateDTO.cpf());
+        this.senha = new BCryptPasswordEncoder().encode(clienteCreateDTO.senha());
         this.nivelAcesso = clienteCreateDTO.nivelAcesso();
         this.idCliente = clienteCreateDTO.idCliente();
         this.status = StatusEnum.ATIVO;
+        this.email = clienteCreateDTO.email();
     }
 
     public String toJson() throws JsonProcessingException {

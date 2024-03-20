@@ -1,28 +1,20 @@
-package minha.aplicacao.api.DTO.Cliente;
+package minha.aplicacao.api.DTO.Usuario;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
-import minha.aplicacao.api.models.Cliente.StatusEnum;
+import minha.aplicacao.api.models.Usuario.StatusEnum;
 import org.springframework.data.annotation.Id;
 
-public record ClienteCreateDTO(
-        @NotBlank
+public record UsuarioCommonDTO(
         String nome,
-        @NotNull
         String dataNascimento,
-        @Id
-        int idCliente,
+        Integer idUsuario,
         StatusEnum status,
-        @NotBlank
-        String senha,
         String imagem64,
-        @NotBlank @Pattern(regexp = "\\d{11}")
         String cpf,
-        @NotNull
         int nivelAcesso,
-        @Email @NotNull
         String email) {
 
 }
