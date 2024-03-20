@@ -20,6 +20,7 @@ public class SecurityConfiguration {
         return  httpSecurity.csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(req -> {
                     req.requestMatchers("/auth").permitAll();
+                    req.requestMatchers("/usuarios").permitAll();
                     req.anyRequest().authenticated();
                 })
                 .sessionManagement(sessionManagement -> sessionManagement.sessionCreationPolicy((SessionCreationPolicy.STATELESS)))

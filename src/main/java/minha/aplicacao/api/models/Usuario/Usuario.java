@@ -69,6 +69,10 @@ public class Usuario extends Pessoa implements UserDetails {
         this.status = StatusEnum.INATIVO;
     }
 
+    public Integer getIdUsuario(){
+        return this.idUsuario;
+    }
+
     @Override @JsonIgnore
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return null;
