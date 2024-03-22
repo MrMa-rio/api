@@ -28,4 +28,8 @@ public class ItensPedidoServices {
         ArrayList<ItensPedido> itensPedidos = iItensPedidoRepository.findByFkPedido(idPedido);
         return itensPedidos;
     }
+    public void getSumTotalPriceItensByPedido(Integer idPedido){
+        ArrayList<ItensPedido> itensPedidos = getItensByPedido(idPedido);
+        //return itensPedidos.stream().map(item -> item.)
+    }
 }

@@ -17,6 +17,9 @@ public class ItensPedido {
     @Column(name = "fk_item")
     private Integer fkItem;
     private Integer quantidade;
+
+
+
     @Column(name = "preco_unitario")
     private Double precoUnitario;
 
@@ -26,5 +29,12 @@ public class ItensPedido {
         this.fkItem = itensPedidoDTO.fkItem();
         this.quantidade = itensPedidoDTO.quantidade();
         this.precoUnitario = itensPedidoDTO.precoUnitario();
+    }
+
+    public Double getPrecoUnitario() {
+        return precoUnitario;
+    }
+    public Integer getQuantidade() {
+        return quantidade;
     }
 }
