@@ -1,4 +1,4 @@
 package minha.aplicacao.api.DTO.Token;
 
-public record TokenDTO(String token) {
+public record TokenDTO(Integer status, String token) {
 }

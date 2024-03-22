@@ -37,4 +37,8 @@ public class PedidoController {
         Pedido pedido  = pedidoServices.cancelPedido(Integer.valueOf(idPedido));
         return ResponseEntity.ok(pedido);
     }
+    @GetMapping("/{idPedido}/calculo")
+    public void calculoPedido(){
+
+    }
 }

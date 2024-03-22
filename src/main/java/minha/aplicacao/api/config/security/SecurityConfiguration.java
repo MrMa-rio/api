@@ -22,11 +22,14 @@ public class SecurityConfiguration {
 
     @Autowired
     private FilterSecurity filterSecurity;
+
+
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
         return  httpSecurity.csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(req -> {
-                    req.requestMatchers(HttpMethod.POST,"/auth").permitAll();
+                    req.requestMatchers(HttpMethod.POST,"/auth/cliente/register").permitAll();
+                    req.requestMatchers(HttpMethod.POST,"/auth/usuario/register").permitAll();
                     //req.requestMatchers("/usuarios").permitAll();
                     req.anyRequest().authenticated();
                 }).addFilterBefore(filterSecurity, UsernamePasswordAuthenticationFilter.class)
