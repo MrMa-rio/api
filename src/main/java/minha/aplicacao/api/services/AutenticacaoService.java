@@ -1,5 +1,6 @@
 package minha.aplicacao.api.services;
 
+import minha.aplicacao.api.repository.IClienteRepository;
 import minha.aplicacao.api.repository.IUsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -12,8 +13,14 @@ public class AutenticacaoService implements UserDetailsService {
     @Autowired
     private IUsuarioRepository iUsuarioRepository;
 
+    @Autowired
+    private IClienteRepository iClienteRepository;
+
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-        return iUsuarioRepository.findByEmail(email);
+        if(iUsuarioRepository.findByEmail(email) != null){
+            return iUsuarioRepository.findByEmail(email);
+        }
+        return iClienteRepository.findByEmail(email);
     }
 }

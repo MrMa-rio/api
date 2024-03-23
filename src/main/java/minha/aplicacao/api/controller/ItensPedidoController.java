@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.ArrayList;
 
 @RestController
-@RequestMapping({"itemspedido","itemspedido/"})
+@RequestMapping({"itenspedido","itenspedido/"})
 public class ItensPedidoController {
 
     @Autowired

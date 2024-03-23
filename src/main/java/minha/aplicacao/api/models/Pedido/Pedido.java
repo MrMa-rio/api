@@ -20,19 +20,19 @@ public class Pedido {
     private Integer fkCliente;
     private String descricao;
     @Column(name = "status_pedido")
-    private StatusPedidoEnum statusPedido;
+    private Integer statusPedido;
 
     public Pedido(PedidoCreateDTO pedidoCreateDTO){
         this.idPedido = pedidoCreateDTO.idPedido();
         this.dataPedido = pedidoCreateDTO.dataPedido();
         this.fkCliente = pedidoCreateDTO.fkCliente();
         this.descricao = pedidoCreateDTO.descricao();
-        this.statusPedido = StatusPedidoEnum.PROCESSANDO;
+        this.statusPedido = StatusPedidoEnum.EM_ANDAMENTO.ordinal();
     }
     public void updatePedido(StatusPedidoEnum statusPedidoEnum){
-        this.statusPedido = statusPedidoEnum;
+        this.statusPedido = statusPedidoEnum.ordinal();
     }
     public void cancelPedido(){
-        this.statusPedido = StatusPedidoEnum.CANCELADO;
+        this.statusPedido = StatusPedidoEnum.CANCELADO.ordinal();
     }
 }

@@ -30,7 +30,7 @@ public class SecurityConfiguration {
                 .authorizeHttpRequests(req -> {
                     req.requestMatchers(HttpMethod.POST,"/auth/cliente/register").permitAll();
                     req.requestMatchers(HttpMethod.POST,"/auth/usuario/register").permitAll();
-                    //req.requestMatchers("/usuarios").permitAll();
+                    req.requestMatchers("/itens").permitAll();
                     req.anyRequest().authenticated();
                 }).addFilterBefore(filterSecurity, UsernamePasswordAuthenticationFilter.class)
                 .sessionManagement(sessionManagement -> sessionManagement.sessionCreationPolicy((SessionCreationPolicy.STATELESS)))

@@ -38,13 +38,13 @@ public class PedidoServices {
     public Pedido updatePedido(PedidoUpdateDTO pedidoUpdateDTO){
         Pedido pedido = getPedidoPorId(pedidoUpdateDTO.idPedido());
         pedido.updatePedido(pedidoUpdateDTO.statusPedido());
-        iPedidoRepository.save(pedido);
+        iPedidoRepository.saveAndFlush(pedido);
         return pedido;
     }
     public Pedido cancelPedido(Integer idPedido){
         Pedido pedido = getPedidoPorId(idPedido);
         pedido.cancelPedido();
-        iPedidoRepository.save(pedido);
+        iPedidoRepository.saveAndFlush(pedido);
         return pedido;
     }
 }

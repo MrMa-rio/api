@@ -1,8 +1,10 @@
 package minha.aplicacao.api.filters.filterSecurity;
 
+import com.auth0.jwt.interfaces.Claim;
 import jakarta.servlet.*;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import minha.aplicacao.api.repository.IClienteRepository;
 import minha.aplicacao.api.repository.IUsuarioRepository;
 import minha.aplicacao.api.services.TokenServices;
 import org.jetbrains.annotations.NotNull;
@@ -22,6 +24,10 @@ public class FilterSecurity extends OncePerRequestFilter {
     private TokenServices tokenServices;
     @Autowired
     IUsuarioRepository iUsuarioRepository;
+    @Autowired
+    IClienteRepository iClienteRepository;
+
+
 
     @Override
     protected void doFilterInternal(
@@ -31,10 +37,17 @@ public class FilterSecurity extends OncePerRequestFilter {
     ) throws ServletException, IOException {
 
         String authorizationHeader = getToken(request);
-        if(authorizationHeader != null) {
+        if(!authorizationHeader.isEmpty()) {
             String subject = tokenServices.getSubject(authorizationHeader);
-            UserDetails usuario = iUsuarioRepository.findByEmail(subject);
-            Authentication authentication = new UsernamePasswordAuthenticationToken(usuario, null, usuario.getAuthorities());
+            Claim claim = tokenServices.getClaim(authorizationHeader);
+            UserDetails userDetails;
+            if(claim.asString().equals("USUARIO")){
+                userDetails = iUsuarioRepository.findByEmail(subject);
+            }
+            else{
+                userDetails = iClienteRepository.findByEmail(subject);
+            }
+            Authentication authentication = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
             SecurityContextHolder.getContext().setAuthentication(authentication);
         }
         filterChain.doFilter(request, response);
@@ -45,6 +58,6 @@ public class FilterSecurity extends OncePerRequestFilter {
         if(authorizationToken != null){
             return authorizationToken.replace("Bearer", "");
         }
-        return null;
+        return "";
     }
 }

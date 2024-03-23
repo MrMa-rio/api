@@ -12,6 +12,6 @@ public record ItensPedidoDTO(
         Integer fkItem,
         @NotNull
         Integer quantidade,
-        @NotNull
+
         Double precoUnitario
 ) {}
