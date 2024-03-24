@@ -27,6 +27,7 @@ public class ClienteServices {
         } catch (DataIntegrityViolationException e) {
             throw new ClientDuplicateDataException();
         }
+
     }
     public ArrayList<Cliente> getClientes(){
         ArrayList<Cliente> cliente = (ArrayList<Cliente>) IClienteRepository.findAll();
@@ -43,20 +44,20 @@ public class ClienteServices {
         Cliente cliente = getClientePorId(clienteUpdateDTO.idCliente());
         try{
             cliente.updateCliente(clienteUpdateDTO);
-            IClienteRepository.save(cliente);
+            IClienteRepository.saveAndFlush(cliente);
             return cliente;
         }catch (RuntimeException e){
-            throw new RuntimeException(e);
+            throw new RuntimeException("FALHA AO ATUALIZAR O CLIENTE");
         }
     }
     public Cliente deleteLogicalCliente(Integer idCliente){
         Cliente cliente = getClientePorId(idCliente);
         try{
             cliente.deleteCliente();
-            IClienteRepository.save(cliente);
+            IClienteRepository.saveAndFlush(cliente);
             return cliente;
         }catch (RuntimeException e){
-            throw new RuntimeException(e);
+            throw new RuntimeException("FALHA AO INATIVAR O CLIENTE");
         }
     }
 }

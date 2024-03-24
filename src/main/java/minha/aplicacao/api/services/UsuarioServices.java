@@ -44,7 +44,7 @@ public class UsuarioServices {
         Usuario usuario = getUsuarioPorId(usuarioUpdateDTO.idUsuario());
         try{
             usuario.updateUsuario(usuarioUpdateDTO);
-            IUsuarioRepository.save(usuario);
+            IUsuarioRepository.saveAndFlush(usuario);
             return usuario;
         }catch (RuntimeException e){
             throw new RuntimeException(e);
@@ -54,7 +54,7 @@ public class UsuarioServices {
         Usuario usuario = getUsuarioPorId(idUsuario);
         try{
             usuario.deleteUsuario();
-            IUsuarioRepository.save(usuario);
+            IUsuarioRepository.saveAndFlush(usuario);
             return usuario;
         }catch (RuntimeException e){
             throw new RuntimeException(e);

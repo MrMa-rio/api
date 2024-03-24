@@ -1,5 +1,6 @@
 package minha.aplicacao.api.controller;
 
+import io.swagger.v3.oas.annotations.Operation;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import minha.aplicacao.api.DTO.Cliente.ClienteCreateDTO;
@@ -25,7 +26,9 @@ public class ClienteController {
     private ClienteServices clienteServices;
     @Autowired
     private PedidoServices pedidoServices;
+
     @PostMapping
+    @Operation(summary = "Cadastra um novo cliente")
     public ResponseEntity<?> setCliente(@RequestBody @Valid ClienteCreateDTO clienteCreateDTO) {
         try {
             return ResponseEntity.ok(clienteServices.setCliente(clienteCreateDTO));
@@ -35,6 +38,7 @@ public class ClienteController {
         }
     }
     @GetMapping
+    @Operation(summary = "Pega todos os clientes")
     public ResponseEntity<?> getTodosClientes(){
         try {
             return ResponseEntity.ok(clienteServices.getClientes());
@@ -49,6 +53,7 @@ public class ClienteController {
         }
     }
     @GetMapping("/{idCliente}")
+    @Operation(summary = "Pega um cliente através do ID")
     public ResponseEntity<?> getClientePorId(@PathVariable String idCliente) {
         try {
             Cliente cliente = clienteServices.getClientePorId(Integer.valueOf(idCliente));
@@ -68,15 +73,17 @@ public class ClienteController {
     }
     @PutMapping
     @Transactional
+    @Operation(summary = "Atualiza os dados de um cliente")
     public ResponseEntity<?> updateCliente(@RequestBody @Valid ClienteUpdateDTO clienteUpdateDTO) {
         try{
             return ResponseEntity.ok(clienteServices.updateCliente(clienteUpdateDTO));
         }catch (ClientNotFoundException e){
             ResponseBody responseBody = new ResponseBody(404, e.getMessage());
             return ResponseEntity.ok(responseBody);
-        } // AJUDA NA CRIACAO DA EXCECAO POIS CASO PASSADO UM VALOR QUE N ESTA SENDO ESPERADO A APLICACAO LANCA UM ERRO
+        }
     }
     @DeleteMapping("/{idCliente}")
+    @Operation(summary = "Inativa o cadastro de um cliente")
     public ResponseEntity<?> deleteLogicalCliente(@PathVariable String idCliente) {
         try {
             Cliente cliente = clienteServices.deleteLogicalCliente(Integer.valueOf(idCliente));
@@ -90,11 +97,12 @@ public class ClienteController {
             return ResponseEntity.ok(responseBody);
         }
         catch (RuntimeException e){
-            ResponseBody responseBody = new ResponseBody(400, "CLIENTE INVALIDO!!");
+            ResponseBody responseBody = new ResponseBody(400, e.getMessage());
             return ResponseEntity.badRequest().body(responseBody);
         }
     }
     @GetMapping({"/{idCliente}/pedidos", "/{idCliente}/pedidos/"})
+    @Operation(summary = "Pega os pedidos de um cliente através do ID")
     public ResponseEntity<?> getPedidosPorIdCliente(@PathVariable String idCliente){
        ArrayList<Pedido> pedidos = pedidoServices.getPedidosPorIdCliente(Integer.valueOf(idCliente));
        return ResponseEntity.ok(pedidos);
