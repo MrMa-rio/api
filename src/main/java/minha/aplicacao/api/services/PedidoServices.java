@@ -2,6 +2,8 @@ package minha.aplicacao.api.services;
 
 import minha.aplicacao.api.DTO.Pedido.PedidoCreateDTO;
 import minha.aplicacao.api.DTO.Pedido.PedidoUpdateDTO;
+import minha.aplicacao.api.exceptions.orderExceptions.OrderNotFoundException;
+import minha.aplicacao.api.exceptions.orderExceptions.OrdersNotFoundException;
 import minha.aplicacao.api.models.Pedido.Pedido;
 import minha.aplicacao.api.repository.IPedidoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +17,7 @@ public class PedidoServices {
 
     @Autowired
     IPedidoRepository iPedidoRepository;
+
     public Pedido setPedido(PedidoCreateDTO pedidoCreateDTO){
         Pedido pedido = new Pedido(pedidoCreateDTO);
         iPedidoRepository.save(pedido);
@@ -22,17 +25,19 @@ public class PedidoServices {
     }
     public Pedido getPedidoPorId(Integer idPedido){
         Optional<Pedido> pedido = iPedidoRepository.findById(idPedido);
-        if(pedido.isEmpty())  return null;
+        if(pedido.isEmpty()) throw new OrderNotFoundException();
         return pedido.get();
     }
 
     public ArrayList<Pedido> getPedidos(){
         ArrayList<Pedido> pedidos = (ArrayList<Pedido>) iPedidoRepository.findAll();
+        if (pedidos.isEmpty()) throw new OrdersNotFoundException();
         return pedidos;
     }
 
     public ArrayList<Pedido> getPedidosPorIdCliente(Integer idCliente){
-        ArrayList<Pedido> pedidos = (ArrayList<Pedido>) iPedidoRepository.findByFkCliente(idCliente);
+        ArrayList<Pedido> pedidos = iPedidoRepository.findByFkCliente(idCliente);
+        if (pedidos.isEmpty()) throw new OrdersNotFoundException("NÃO EXISTE PEDIDOS PARA ESTE CLIENTE");
         return pedidos;
     }
     public Pedido updatePedido(PedidoUpdateDTO pedidoUpdateDTO){
